@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  * @author charl
  */
 public class MenuTareas extends javax.swing.JFrame {
-private DefaultTableModel tablita= new DefaultTableModel(){
+public static DefaultTableModel tablita= new DefaultTableModel(){
 public boolean isCellEditable(int f, int c){
 return false;
 }
@@ -227,8 +227,8 @@ return false;
 
     private void jBMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMostrarActionPerformed
         // TODO add your handling code here:
-        Escritorio.removeAll();
-        Escritorio.repaint();
+//        Escritorio.removeAll();
+//        Escritorio.repaint();
         MostrarLista vista= new MostrarLista();
         vista.setVisible(true);
         Escritorio.add(vista);

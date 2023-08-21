@@ -4,17 +4,27 @@
  */
 package etapa3.guia2.ejerciciosextras.pkg1;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author charl
  */
 public class MostrarLista extends javax.swing.JInternalFrame {
 
+    public DefaultTableModel tabla2 = new DefaultTableModel() {
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
+    };
+
     /**
      * Creates new form MostrarLista
      */
     public MostrarLista() {
         initComponents();
+        armarCabecera();
     }
 
     /**
@@ -27,23 +37,31 @@ public class MostrarLista extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jBTerminadas = new javax.swing.JButton();
+        jBPendiente = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablaEmergente = new javax.swing.JTable();
 
         setClosable(true);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Selecciona la lista que deseas ver");
 
-        jButton1.setText("Terminadas");
+        jBTerminadas.setText("Terminadas");
+        jBTerminadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTerminadasActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Pendientes");
+        jBPendiente.setText("Pendientes");
+        jBPendiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBPendienteActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Limpiar");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablaEmergente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -54,39 +72,36 @@ public class MostrarLista extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTablaEmergente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel1)))
-                .addContainerGap(108, Short.MAX_VALUE))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jBTerminadas)
+                                .addGap(53, 53, 53)
+                                .addComponent(jBPendiente)))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
+                .addContainerGap(71, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jBPendiente)
+                    .addComponent(jBTerminadas))
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
@@ -95,13 +110,45 @@ public class MostrarLista extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBTerminadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBTerminadasActionPerformed
+        int filas = MenuTareas.tablita.getRowCount();
+//        JOptionPane.showMessageDialog(this, MenuTareas.tablita.getValueAt(0, 0));
+        for (int n = 0; n < filas; n++) {
+            String estado = (String) MenuTareas.tablita.getValueAt(n, 2);
+            if (estado.equalsIgnoreCase("✔")) {
+                String des = (String) MenuTareas.tablita.getValueAt(n, 0);
+
+                tabla2.addRow(new Object[]{des, "Realizado" + n});
+            }
+
+        }
+    }//GEN-LAST:event_jBTerminadasActionPerformed
+
+    private void jBPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPendienteActionPerformed
+        int filas = MenuTareas.tablita.getRowCount();
+//        JOptionPane.showMessageDialog(this, MenuTareas.tablita.getValueAt(0, 0));
+        for (int n = 0; n < filas; n++) {
+            String estado = (String) MenuTareas.tablita.getValueAt(n, 2);
+            if (estado.equalsIgnoreCase("✖")) {
+                String des = (String) MenuTareas.tablita.getValueAt(n, 0);
+
+                tabla2.addRow(new Object[]{des, "Incompleto"});
+            }
+
+        }     }//GEN-LAST:event_jBPendienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jBPendiente;
+    private javax.swing.JButton jBTerminadas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablaEmergente;
     // End of variables declaration//GEN-END:variables
+private void armarCabecera() {
+        tabla2.addColumn("Tarea");
+        tabla2.addColumn("Estado");
+        jTablaEmergente.setModel(tabla2);
+
+    }
 }
